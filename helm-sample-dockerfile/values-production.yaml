@@ -3,6 +3,7 @@
 image:
   repository: gcr.io/ilyagorban-org/sample
   tag: a8625b6
+  pullPolicy: Always
 tolerations:
 - key: "dedicated"
   operator: "Equal"
