@@ -1,0 +1,10 @@
+# service:
+#   type: LoadBalancer
+image:
+  repository: gcr.io/ilyagorban-org/sample
+  tag: a8625b6
+tolerations:
+- key: "dedicated"
+  operator: "Equal"
+  value: "application"
+  effect: "NoSchedule"

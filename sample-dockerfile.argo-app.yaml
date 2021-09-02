@@ -4,18 +4,45 @@ metadata:
   name: sample-dockerfile
   namespace: argocd
 spec:
-  project: default
+  destination:
+    namespace: applications
+    server: 'https://kubernetes.default.svc'
   source:
-    repoURL: 'git@github.com:ilyagorban-codefresh/sample-dockerfile.git'
-    path: helm
+    path: sample-dockerfile
+    repoURL: 'https://github.com/ilyagorban-codefresh/sample-dockerfile.git'
     targetRevision: main
     helm:
       valueFiles:
         - values.yaml
       releaseName: sample-dockerfile
-  destination:
-    namespace: applications
-    name: sample-dockerfile
+    server: 'https://kubernetes.default.svc'
+  project: default
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+    automated:
+      prune: false
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-sample-dockerfile
+  namespace: argocd
+spec:
+  destination:
+    namespace: applications
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: helm-sample-dockerfile
+    helm:
+      valueFiles:
+        - values-production.yaml
+    repoURL: 'https://github.com/ilyagorban-codefresh/sample-argo-app.git'
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      prune: false
+      selfHeal: true
